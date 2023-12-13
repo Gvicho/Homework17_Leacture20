@@ -1,8 +1,12 @@
-package com.example.homework17_leacture20
+package com.example.homework17_leacture20.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.homework17_leacture20.remote.Network
+import com.example.homework17_leacture20.model.Person
+import com.example.homework17_leacture20.model.RequestResponse
+import com.example.homework17_leacture20.remote.ResultWrapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,15 +25,18 @@ class RegisterViewModel: ViewModel() {
                 val response = Network.networkAPI.registerUser(person)
                 if(response.isSuccessful){
                     Log.d("tag123","response was successful")
-                    _response.value = ResultWrapper.Success( data = response.body()!!)
+                    _response.value = ResultWrapper.Success(data = response.body()!!)
                     delay(10) // I dont like this here but, probably should have differant flow for events
                 }else{
-                    _response.value = ResultWrapper.Error(errorMessage = response.errorBody()?.string() ?: "empty Error")
+                    _response.value = ResultWrapper.Error(
+                        errorMessage = response.errorBody()?.string() ?: "empty Error"
+                    )
                     delay(10)
                 }
             } catch (e: Throwable) {
-                Log.d("tag123","${e.toString()}")
-                _response.value = ResultWrapper.Error(errorMessage = e.message?.toString() ?: "empty Error")
+                Log.d("tag123", e.toString())
+                _response.value =
+                    ResultWrapper.Error(errorMessage = e.message ?: "empty Error")
             }
             //this was happening too fast so that I had to wait the data to be emitted for 100 ms
             _response.value = ResultWrapper.Loading(loading = false)

@@ -1,4 +1,4 @@
-package com.example.homework17_leacture20
+package com.example.homework17_leacture20.remote
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory

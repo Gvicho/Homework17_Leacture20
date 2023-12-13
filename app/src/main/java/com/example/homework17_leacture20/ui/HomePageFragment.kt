@@ -1,15 +1,10 @@
-package com.example.homework17_leacture20
+package com.example.homework17_leacture20.ui
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.homework17_leacture20.databinding.FragmentHomePageBinding
-import com.example.homework17_leacture20.databinding.FragmentLoginBinding
 
 
 class HomePageFragment : BaseFragment<FragmentHomePageBinding>(FragmentHomePageBinding::inflate) {

@@ -1,11 +1,8 @@
-package com.example.homework17_leacture20
+package com.example.homework17_leacture20.ui
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
@@ -13,15 +10,17 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.example.homework17_leacture20.databinding.FragmentHomePageBinding
+import com.example.homework17_leacture20.model.Person
+import com.example.homework17_leacture20.remote.ResultWrapper
 import com.example.homework17_leacture20.databinding.FragmentRegistrationBinding
+import com.example.homework17_leacture20.viewmodel.RegisterViewModel
 import kotlinx.coroutines.launch
 
 
 class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>(FragmentRegistrationBinding::inflate) {
 
     private val viewModel: RegisterViewModel by viewModels()
-    private var newPerson:Person? = null
+    private var newPerson: Person? = null
 
     companion object {
         @JvmStatic
@@ -80,7 +79,7 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>(FragmentR
                         } else if (it is ResultWrapper.Error){
                             Toast.makeText(context, "${it.errorMessage}", Toast.LENGTH_SHORT).show()
                         }else{
-                            var loading = it.loading
+                            val loading = it.loading
                             if(loading){
                                 binding.progressBar.visibility = View.VISIBLE
                             }else{
@@ -121,7 +120,7 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>(FragmentR
         return true
     }
 
-    private fun registerPerson(person:Person){
+    private fun registerPerson(person: Person){
         val result = Bundle().apply {
             putString("Email", person.email)
             putString("Password", person.password)

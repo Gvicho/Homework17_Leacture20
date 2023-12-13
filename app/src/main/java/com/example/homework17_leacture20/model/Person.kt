@@ -1,4 +1,4 @@
-package com.example.homework17_leacture20
+package com.example.homework17_leacture20.model
 
 
 data class Person(val email:String,

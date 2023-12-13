@@ -1,8 +1,9 @@
-package com.example.homework17_leacture20
+package com.example.homework17_leacture20.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
+import com.example.homework17_leacture20.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

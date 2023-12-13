@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".RegistrationFragment"
+    tools:context=".ui.RegistrationFragment"
     android:background="@color/white">
     <ProgressBar
         android:id="@+id/progressBar"
@@ -48,6 +48,7 @@
         android:drawablePadding="23dp"
         android:hint="@string/email"
         android:paddingStart="20dp"
+        android:paddingEnd="0dp"
         android:textColorHint="@color/lightpurple"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -78,6 +79,7 @@
             android:hint="@string/password"
             android:paddingVertical="6dp"
             android:paddingStart="20dp"
+            android:paddingEnd="0dp"
             android:textColorHint="@color/lightpurple"
             android:textSize="18sp" />
 
@@ -106,6 +108,7 @@
             android:hint="@string/repeat_password"
             android:paddingVertical="6dp"
             android:paddingStart="20dp"
+            android:paddingEnd="0dp"
             android:textColorHint="@color/lightpurple"
             android:textSize="18sp" />
 

@@ -1,7 +1,6 @@
-package com.example.homework17_leacture20
+package com.example.homework17_leacture20.remote
 
 import android.util.Log
-import com.bumptech.glide.load.engine.Resource
 
 sealed class ResultWrapper<T> (
     val data: T? = null,
@@ -10,7 +9,7 @@ sealed class ResultWrapper<T> (
 ){
     class Success<T>( data: T): ResultWrapper<T>(data = data){
         init {
-            Log.d("tag123","new Succsess was initialized")
+            Log.d("tag123","new Success was initialized")
         }
     }
     class Error<T>(errorMessage:String): ResultWrapper<T>(errorMessage = errorMessage)

@@ -1,4 +1,4 @@
-package com.example.homework17_leacture20
+package com.example.homework17_leacture20.ui
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -8,12 +8,14 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.example.homework17_leacture20.viewmodel.LoginViewModel
+import com.example.homework17_leacture20.model.Person
+import com.example.homework17_leacture20.model.RequestResponse
+import com.example.homework17_leacture20.remote.ResultWrapper
 import com.example.homework17_leacture20.databinding.FragmentLoginBinding
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -22,7 +24,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     private val viewModel: LoginViewModel by viewModels()
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
-    private var newPerson:Person? = null
+    private var newPerson: Person? = null
 
 
 
@@ -99,7 +101,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                         } else if (it is ResultWrapper.Error){
                             Toast.makeText(context, "${it.errorMessage}", Toast.LENGTH_SHORT).show()
                         }else{
-                            var loading = it.loading
+                            val loading = it.loading
                             if(loading){
                                 binding.progressBar.visibility = View.VISIBLE
                             }else{
@@ -125,14 +127,14 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
     }
 
-    private suspend fun saveAuthentication(response:RequestResponse){ //response has email and token inside
+    private fun saveAuthentication(response: RequestResponse){ //response has email and token inside
 
         val boxWasChecked = binding.rememberMeChkBox.isChecked
 
         editor.putBoolean("Remember",boxWasChecked)
         editor.putString("Token", response.token)
         editor.putString("Email", response.email)
-        val ans = editor.commit()
+        editor.commit()
     }
 
     private fun validateAllInput(email:String,password:String):Boolean{
