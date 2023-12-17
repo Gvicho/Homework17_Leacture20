@@ -1,4 +1,4 @@
-package com.example.homework17_leacture20.remote
+package com.example.homework17_leacture20.data.remote
 
 import android.util.Log
 

@@ -14,7 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.homework17_leacture20.viewmodel.LoginViewModel
 import com.example.homework17_leacture20.model.Person
 import com.example.homework17_leacture20.model.RequestResponse
-import com.example.homework17_leacture20.remote.ResultWrapper
+import com.example.homework17_leacture20.data.remote.ResultWrapper
 import com.example.homework17_leacture20.databinding.FragmentLoginBinding
 import kotlinx.coroutines.launch
 

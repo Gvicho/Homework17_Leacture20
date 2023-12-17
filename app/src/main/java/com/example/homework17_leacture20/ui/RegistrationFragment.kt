@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.homework17_leacture20.model.Person
-import com.example.homework17_leacture20.remote.ResultWrapper
+import com.example.homework17_leacture20.data.remote.ResultWrapper
 import com.example.homework17_leacture20.databinding.FragmentRegistrationBinding
 import com.example.homework17_leacture20.viewmodel.RegisterViewModel
 import kotlinx.coroutines.launch

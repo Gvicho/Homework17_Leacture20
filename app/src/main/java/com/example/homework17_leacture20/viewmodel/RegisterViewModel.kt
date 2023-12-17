@@ -3,10 +3,10 @@ package com.example.homework17_leacture20.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.homework17_leacture20.remote.Network
+import com.example.homework17_leacture20.data.remote.Network
 import com.example.homework17_leacture20.model.Person
 import com.example.homework17_leacture20.model.RequestResponse
-import com.example.homework17_leacture20.remote.ResultWrapper
+import com.example.homework17_leacture20.data.remote.ResultWrapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +22,7 @@ class RegisterViewModel: ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             _response.value = ResultWrapper.Loading(loading = true)
             try {
-                val response = Network.networkAPI.registerUser(person)
+                val response = Network.registerAPI.registerUser(person)
                 if(response.isSuccessful){
                     Log.d("tag123","response was successful")
                     _response.value = ResultWrapper.Success(data = response.body()!!)
