@@ -1,4 +1,4 @@
-package com.example.homework17_leacture20.ui
+package com.example.homework17_leacture20.presentation.login
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -11,14 +11,15 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.example.homework17_leacture20.viewmodel.LoginViewModel
-import com.example.homework17_leacture20.model.Person
-import com.example.homework17_leacture20.model.RequestResponse
-import com.example.homework17_leacture20.data.remote.ResultWrapper
+import com.example.homework17_leacture20.R
+import com.example.homework17_leacture20.data.common.ResultWrapper
 import com.example.homework17_leacture20.databinding.FragmentLoginBinding
+import com.example.homework17_leacture20.presentation.BaseFragment
+import com.example.homework17_leacture20.presentation.common.Person
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::inflate) {
 
     private val viewModel: LoginViewModel by viewModels()
@@ -68,9 +69,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
                 if(validateAllInput(email,password)){
                     Log.d("tag123","validated!")
-                    newPerson = Person(email,password)
+                    newPerson = Person(email,password) //aq magari cudi rame xdeba
                     newPerson?.let {
-                        viewModel.loginPerson(it)
+                        viewModel.loginPerson(it.email,it.token)// ideashi aq
                     }
                 }
             }
@@ -90,18 +91,19 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                     response?.let{
                         if (it is ResultWrapper.Success) {
                             Toast.makeText(context, "successful login", Toast.LENGTH_SHORT).show()
-                            val responseBody = response.data
+                            val responseBody = Person(token = response.data?.token?:"" , email = newPerson!!.email)
 
-                            responseBody?.let{
-                                it.email = newPerson!!.email
-                                saveAuthentication(it)
-                            }
+                            newPerson?.token = responseBody.token
+
+                            saveAuthentication(responseBody)
                             openHomePage()
 
                         } else if (it is ResultWrapper.Error){
                             Toast.makeText(context, "${it.errorMessage}", Toast.LENGTH_SHORT).show()
                         }else{
+
                             val loading = it.loading
+                            Log.d("tag123","aqac collect ${loading}")
                             if(loading){
                                 binding.progressBar.visibility = View.VISIBLE
                             }else{
@@ -116,24 +118,25 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     }
 
     private fun openHomePage(){
-        val action = LoginFragmentDirections.actionLoginFragmentToHomePageFragment()
-        findNavController().navigate(action)
-
+        val navController = findNavController()
+        if (navController.currentDestination?.id == R.id.loginFragment) { // without this I was getting crashe after registration + autofill login
+            val action = LoginFragmentDirections.actionLoginFragmentToHomePageFragment()
+            navController.navigate(action)
+        }
     }
 
     private fun openRegistrationPage(){
         val action = LoginFragmentDirections.actionLoginFragmentToRegistrationFragment()
         findNavController().navigate(action)
-
     }
 
-    private fun saveAuthentication(response: RequestResponse){ //response has email and token inside
+    private fun saveAuthentication(person: Person){ //response has email and token inside
 
         val boxWasChecked = binding.rememberMeChkBox.isChecked
 
         editor.putBoolean("Remember",boxWasChecked)
-        editor.putString("Token", response.token)
-        editor.putString("Email", response.email)
+        editor.putString("Token", person.token)
+        editor.putString("Email", person.email)
         editor.commit()
     }
 

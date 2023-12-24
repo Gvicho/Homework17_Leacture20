@@ -1,12 +1,15 @@
-package com.example.homework17_leacture20.ui
+package com.example.homework17_leacture20.presentation.homepage
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.navigation.fragment.findNavController
 import com.example.homework17_leacture20.databinding.FragmentHomePageBinding
+import com.example.homework17_leacture20.presentation.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class HomePageFragment : BaseFragment<FragmentHomePageBinding>(FragmentHomePageBinding::inflate) {
 
     private lateinit var sharedPreferences: SharedPreferences

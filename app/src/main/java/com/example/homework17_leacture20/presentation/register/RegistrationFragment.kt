@@ -1,4 +1,4 @@
-package com.example.homework17_leacture20.ui
+package com.example.homework17_leacture20.presentation.register
 
 import android.os.Bundle
 import android.util.Log
@@ -10,17 +10,17 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.example.homework17_leacture20.model.Person
-import com.example.homework17_leacture20.data.remote.ResultWrapper
+import com.example.homework17_leacture20.data.common.ResultWrapper
 import com.example.homework17_leacture20.databinding.FragmentRegistrationBinding
-import com.example.homework17_leacture20.viewmodel.RegisterViewModel
+import com.example.homework17_leacture20.presentation.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>(FragmentRegistrationBinding::inflate) {
 
     private val viewModel: RegisterViewModel by viewModels()
-    private var newPerson: Person? = null
+    private var newRegisterEvent: RegisterEvent? = null
 
     companion object {
         @JvmStatic
@@ -48,9 +48,9 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>(FragmentR
                     Log.d("tag123","validated!")
 
 
-                    newPerson = Person(email,password)
-                    newPerson?.let {
-                        viewModel.registerPerson(it)
+                    newRegisterEvent = RegisterEvent(email,password)
+                    newRegisterEvent?.let {
+                        viewModel.registerPerson(it.email,it.password)
                     }
 
                 }
@@ -68,10 +68,7 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>(FragmentR
                             Toast.makeText(context, "successful Registration", Toast.LENGTH_SHORT).show()
                             val responseBody = response.data
 
-                            responseBody?.let{
-                                it.email = newPerson!!.email
-                            }
-                            newPerson?.let {
+                            newRegisterEvent?.let {
                                 registerPerson(it)
                             }
                             closeRegistrationFragment()
@@ -120,10 +117,10 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>(FragmentR
         return true
     }
 
-    private fun registerPerson(person: Person){
+    private fun registerPerson(newRegisterEvent:RegisterEvent){
         val result = Bundle().apply {
-            putString("Email", person.email)
-            putString("Password", person.password)
+            putString("Email", newRegisterEvent.email)
+            putString("Password", newRegisterEvent.password)
         }
         setFragmentResult("requestKey", result)
 
